@@ -7,6 +7,8 @@
 #include "lvgl/demos/lv_demos.h"
 #include "demo_app.h"
 
+WindowConfig config;
+
 const char *getenv_default(const char *name, const char *dflt)
 {
     return getenv(name) ?: dflt;
@@ -33,7 +35,7 @@ void lv_linux_disp_init(void)
 #elif LV_USE_SDL
 void lv_linux_disp_init(void)
 {
-    lv_sdl_window_create(window_width, window_height);
+    lv_sdl_window_create(config.window_width, config.window_height);
 }
 
 #elif LV_USE_WAYLAND
@@ -41,16 +43,15 @@ void lv_linux_disp_init(void)
 {
     lv_display_t *disp;
     lv_group_t *g;
-    printf("WIDTH: ");
-    disp = lv_wayland_window_create(1920, 1080, "LVGL Simulator", NULL);
+    disp = lv_wayland_window_create(config.window_width, config.window_height, "LVGL Simulator", NULL);
 
-    if (fullscreen)
+    if (config.fullscreen)
     {
-        lv_wayland_window_set_fullscreen(disp, fullscreen);
+        lv_wayland_window_set_fullscreen(disp, config.fullscreen);
     }
-    else if (maximize)
+    else if (config.maximize)
     {
-        lv_wayland_window_set_maximized(disp, maximize);
+        lv_wayland_window_set_maximized(disp, config.maximize);
     }
 
     g = lv_group_create();

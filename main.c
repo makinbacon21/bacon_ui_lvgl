@@ -7,12 +7,10 @@
 
 #include "demo_app.h"
 
-const char *getenv_default(const char *name, const char *dflt);
 void configure_simulator(int argc, char **argv);
 
 int main(int argc, char **argv)
 {
-
     configure_simulator(argc, argv);
 
     /* Initialize LVGL. */
@@ -40,9 +38,9 @@ void configure_simulator(int argc, char **argv)
     bool err = false;
 
     /* Default values */
-    fullscreen = maximize = false;
-    window_width = atoi(getenv("LV_SIM_WINDOW_WIDTH") ?: "1920");
-    window_height = atoi(getenv("LV_SIM_WINDOW_HEIGHT") ?: "1080");
+    config.fullscreen = config.maximize = false;
+    config.window_width = atoi(getenv("LV_SIM_WINDOW_WIDTH") ?: "1920");
+    config.window_height = atoi(getenv("LV_SIM_WINDOW_HEIGHT") ?: "1080");
 
     /* Parse the command-line options. */
     while ((opt = getopt(argc, argv, "fmw:h:")) != -1)
@@ -50,7 +48,7 @@ void configure_simulator(int argc, char **argv)
         switch (opt)
         {
         case 'f':
-            fullscreen = true;
+            config.fullscreen = true;
             if (LV_USE_SDL)
             {
                 fprintf(stderr, "The SDL driver doesn't support fullscreen mode on start\n");
@@ -58,7 +56,7 @@ void configure_simulator(int argc, char **argv)
             }
             break;
         case 'm':
-            maximize = true;
+            config.maximize = true;
             if (LV_USE_SDL)
             {
                 fprintf(stderr, "The SDL driver doesn't support maximized mode on start\n");
@@ -66,10 +64,10 @@ void configure_simulator(int argc, char **argv)
             }
             break;
         case 'w':
-            window_width = atoi(optarg);
+            config.window_width = atoi(optarg);
             break;
         case 'h':
-            window_height = atoi(optarg);
+            config.window_height = atoi(optarg);
             break;
         case ':':
             fprintf(stderr, "Option -%c requires an argument.\n", optopt);
