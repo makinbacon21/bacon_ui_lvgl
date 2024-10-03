@@ -7,7 +7,10 @@
 #include "lvgl/demos/lv_demos.h"
 #include "demo_app.h"
 
-WindowConfig config;
+const uint16_t WINDOW_WIDTH = 640;
+const uint16_t WINDOW_HEIGHT = 380;
+const bool FULLSCREEN = false;
+const bool MAXIMIZE = false;
 
 const char *getenv_default(const char *name, const char *dflt)
 {
@@ -35,7 +38,7 @@ void lv_linux_disp_init(void)
 #elif LV_USE_SDL
 void lv_linux_disp_init(void)
 {
-    lv_sdl_window_create(config.window_width, config.window_height);
+    lv_sdl_window_create(WINDOW_WIDTH, WINDOW_HEIGHT);
 }
 
 #elif LV_USE_WAYLAND
@@ -43,15 +46,15 @@ void lv_linux_disp_init(void)
 {
     lv_display_t *disp;
     lv_group_t *g;
-    disp = lv_wayland_window_create(config.window_width, config.window_height, "LVGL Simulator", NULL);
+    disp = lv_wayland_window_create(WINDOW_WIDTH, WINDOW_HEIGHT, "LVGL Simulator", NULL);
 
-    if (config.fullscreen)
+    if (FULLSCREEN)
     {
-        lv_wayland_window_set_fullscreen(disp, config.fullscreen);
+        lv_wayland_window_set_fullscreen(disp, FULLSCREEN);
     }
-    else if (config.maximize)
+    else if (MAXIMIZE)
     {
-        lv_wayland_window_set_maximized(disp, config.maximize);
+        lv_wayland_window_set_maximized(disp, MAXIMIZE);
     }
 
     g = lv_group_create();
