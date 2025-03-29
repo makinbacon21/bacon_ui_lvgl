@@ -21,6 +21,9 @@ lv_obj_t *event_sub_lbl;
 lv_obj_t *status_lbl;
 lv_obj_t *clock_grad;
 
+bacon_app_t clock_app = NULL;
+bacon_app_t current_app = clock_app;
+
 pthread_mutex_t clock_mutex;
 
 static bool clockstate = false;
@@ -168,6 +171,17 @@ void lv_start_bacon(void) {
 
     lv_timer_t *timer = lv_timer_create(timeout_cb, 5000, NULL);
     lv_timer_set_repeat_count(timer, 1);
+}
+
+void launch_app(bacon_app_t *app) {
+    current_app.suspend();
+    app.entry();
+    current_app = app;
+}
+
+void close_app(bacon_app_t *app) {
+    app.suspend();
+    current_app = clock_app;
 }
 
 void lv_bacon_run_loop(void) {

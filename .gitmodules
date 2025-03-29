@@ -2,3 +2,7 @@
 	path = lvgl
 	url = https://github.com/lvgl/lvgl.git
 	branch = v8.4
+[submodule "lv_drivers"]
+	path = lvgl
+	url = https://github.com/lvgl/lv_drivers.git
+	branch = 5a5b4a1a3e95a46e6cf58ac6aac6ed6e826bfedd

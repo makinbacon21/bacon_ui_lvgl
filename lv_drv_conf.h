@@ -192,6 +192,23 @@
 #  endif
 #endif
 
+/*----------------------------------------
+ *  X11 drivers (monitor, mouse, keyboard)
+ *---------------------------------------*/
+#ifndef USE_X11
+#  define USE_X11       0
+#endif
+
+#if USE_X11
+  /* Simulated screen resolution  */
+  #ifndef DISP_HOR_RES
+    #define DISP_HOR_RES   552
+  #endif
+  #ifndef DISP_VER_RES
+    #define DISP_VER_RES   368
+  #endif
+#endif // USE_X11
+
 /*----------------
  *    SSD1963
  *--------------*/
