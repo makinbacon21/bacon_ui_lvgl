@@ -270,7 +270,7 @@ int discover_applications() {
 
         strcat(filename, APP_DIR);
         strncat(filename, de->d_name, 481);
-        strcat(filename, "/app.bin");
+        strcat(filename, "/app.so");
 
         void *applib;
         applib = dlopen(filename, RTLD_NOW);
@@ -290,6 +290,8 @@ int discover_applications() {
 
         app->surface =
             lv_scr_act(); // CHANGEME: apps should render to interior block
+
+        LV_LOG_INFO("Registered app id %s\n", app->id);
     }
 
     closedir(dr);
