@@ -19,6 +19,7 @@
 #define CLOCK_HEIGHT 100
 
 static bacon_app_t **registered_apps;
+static uint16_t app_cnt = 0;
 
 static lv_style_t style_title;
 static lv_style_t style_heading;
@@ -290,6 +291,16 @@ int discover_applications() {
 
         app->surface =
             lv_scr_act(); // CHANGEME: apps should render to interior block
+
+        app_cnt++;
+
+        if (app_cnt == 1) {
+            registered_apps = malloc(sizeof(uintptr_t));
+        } else {
+            registered_apps = (bacon_app_t **)realloc(registered_apps, sizeof(uintptr_t) * app_cnt);
+        }
+
+        registered_apps[app_cnt - 1] = app;
 
         LV_LOG_INFO("Registered app id %s\n", app->id);
     }
