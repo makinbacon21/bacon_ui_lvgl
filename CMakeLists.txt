@@ -3,7 +3,7 @@ project(lvgl)
 
 set(LV_DRIVER "X11")
 
-option(DEBUG_MODE "Disable optimizations and enable debugging" OFF)
+option(DEBUG_MODE "Disable optimizations and enable debugging" ON)
 
 set(CMAKE_C_STANDARD 99) # LVGL officially supports C99 and above
 set(CMAKE_CXX_STANDARD 17) #C17
@@ -31,7 +31,7 @@ target_include_directories(lv_drivers PUBLIC ${PROJECT_SOURCE_DIR})
 
 # No specific build steps required for FBDEV
 add_executable(lvgl-app main.c bacon.c bacon_theme.c )#btlib.c)
-target_link_libraries(lvgl-app lv_drivers lvgl m pthread ${LV_DRIVER})
+target_link_libraries(lvgl-app lv_drivers lvgl m pthread json-c ${LV_DRIVER})
 target_compile_definitions(lvgl-app PRIVATE SIMULATOR=1 LV_BUILD_TEST=0)
 
 add_custom_target (run COMMAND ${EXECUTABLE_OUTPUT_PATH}/lvgl-app DEPENDS lvgl-app)

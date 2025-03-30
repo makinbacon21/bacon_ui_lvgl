@@ -5,18 +5,43 @@
 #include "lvgl/lvgl.h"
 #include "bacon_theme.h"
 
-typedef prio_t uint8_t;
-typedef freq_t uint16_t;
+#ifdef SIMULATOR
+#define APP_DIR "./apps/"
+#else
+#define APP_DIR "/usr/bin/bacon/"
+#endif
+
+typedef uint8_t prio_t;
+typedef uint16_t period_t;
 
 typedef struct {
     int32_t (*entry)();
     int32_t (*suspend)();
     int32_t (*resume)();
+    char id[272];
     prio_t priority;
     bool destroy_on_exit;
-    freq_t update_freq;
-    lv_obj_t surface;
+    period_t update_period;
+    lv_obj_t *surface;
 } bacon_app_t;
+
+/**
+ * BACON APP MANIFEST
+ * Parsed from JSON
+ * Example:
+ * {
+ *     "appmanifest": {
+ *         "name": "Clock",
+ *         "publisher": "Thomas Makin",
+ *         "version": "v1.0.0"
+ *     },
+ * }
+ */
+typedef struct {
+    char name[256];
+    char publisher[256];
+    char version[16];
+} bacon_app_manifest_t;
 
 void lv_start_bacon(void);
 void lv_bacon_run_loop(void);

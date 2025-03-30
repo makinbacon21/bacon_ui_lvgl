@@ -29,7 +29,9 @@
 			"lv_drv_conf.h": "c",
 			"stdlib.h": "c",
 			"cstdint": "cpp",
-			"cstdlib": "c"
+			"cstdlib": "c",
+			"compare": "cpp",
+			"typeinfo": "c"
 		},
 		"makefile.configureOnOpen": true,
 	},
