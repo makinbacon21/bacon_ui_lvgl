@@ -255,6 +255,7 @@ int discover_applications() {
         if (ret < 0) {
             LV_LOG_ERROR("Malformed manifest for app %s, errno %d\n",
                          de->d_name, ret);
+            free(manifest);
             continue;
         }
 
@@ -298,6 +299,7 @@ int discover_applications() {
         dlerr = dlerror();
         if (dlerr) {
             LV_LOG_ERROR("Failed to find entry/exit point symbols!");
+            free(app);
             closedir(dr);
             return -EINVAL;
         }
