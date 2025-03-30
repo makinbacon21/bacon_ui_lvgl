@@ -263,8 +263,10 @@ int discover_applications() {
         LV_LOG_INFO("Publisher: %s, Version: %s\n", manifest->publisher,
                     manifest->version);
 
+        free(manifest);
+
         // register application
-        filename[0] = '\n';
+        filename[0] = '\0';
 
         strcat(filename, APP_DIR);
         strncat(filename, de->d_name, 481);
@@ -274,39 +276,18 @@ int discover_applications() {
         applib = dlopen(filename, RTLD_NOW);
         if (!applib) {
             LV_LOG_ERROR("Failed to open app %s!\n", de->d_name);
-            free(manifest);
             continue;
         }
 
-        bacon_app_t *app = malloc(sizeof(bacon_app_t));
+        bacon_app_t *app;
+
+        app = (bacon_app_t *) dlsym(applib, "appspec");
         if (!app) {
-            LV_LOG_ERROR("Failed to alloc space for app\n");
-            free(manifest);
-            closedir(dr);
-            return -ENOMEM;
-        }
-
-        strcpy(app->id, manifest->name);
-        strcpy(app->id, "@");
-        strcpy(app->id, manifest->version);
-
-        free(manifest);
-
-        app->entry = dlsym(applib, "entry");
-        app->suspend = dlsym(applib, "suspend");
-        app->resume = dlsym(applib, "resume");
-
-        dlerr = dlerror();
-        if (dlerr) {
-            LV_LOG_ERROR("Failed to find entry/exit point symbols!");
-            free(app);
+            LV_LOG_ERROR("Failed to find appspec symbol!");
             closedir(dr);
             return -EINVAL;
         }
 
-        app->priority = 0;
-        app->destroy_on_exit = true;
-        app->update_period = 5;
         app->surface =
             lv_scr_act(); // CHANGEME: apps should render to interior block
     }
