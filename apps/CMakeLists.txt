@@ -19,7 +19,7 @@ foreach(APP_SRC ${APP_SOURCES})
     )
 
     set_target_properties(${APP_NAME} PROPERTIES
-        INSTALL_RPATH "\$ORIGIN/../../libs"
+        INSTALL_RPATH ${PROJECT_SOURCE_DIR}/bin/lib
     )
 
     # Ensure the output directory exists before copying manifest.json

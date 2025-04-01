@@ -272,7 +272,7 @@ int discover_applications() {
         void *applib;
         applib = dlopen(filename, RTLD_NOW);
         if (!applib) {
-            LV_LOG_ERROR("Failed to open app %s!\n", de->d_name);
+            LV_LOG_ERROR("Failed to open app %s! %s\n", de->d_name, dlerror());
             continue;
         }
 
@@ -321,6 +321,8 @@ void lv_start_bacon(void) {
     create_statusbar(screen);
 
     create_clock(screen);
+
+    //registered_apps[0]->entry();
 
     lv_timer_create(update_status_cb, 1000, NULL);
 

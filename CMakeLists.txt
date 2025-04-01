@@ -38,6 +38,8 @@ add_executable(lvgl-app main.c bacon.c bacon_theme.c )#btlib.c)
 target_link_libraries(lvgl-app lv_drivers lvgl m pthread json-c ${LV_DRIVER})
 target_compile_definitions(lvgl-app PRIVATE SIMULATOR=1 LV_BUILD_TEST=0)
 
+set_target_properties(lvgl-app PROPERTIES LINK_FLAGS "-rdynamic")
+
 add_custom_target (run COMMAND ${EXECUTABLE_OUTPUT_PATH}/lvgl-app DEPENDS lvgl-app)
 
 add_subdirectory(apps)
