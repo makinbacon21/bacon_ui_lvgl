@@ -129,3 +129,7 @@ void update_gradient_text(lv_opa_t *mask_map, char *txt, const uint32_t width,
     canvas_gradient_text(mask_map, txt, width, height);
     lv_obj_invalidate(lv_scr_act());
 }
+
+void fade(lv_obj_t *var, lv_opa_t value) {
+    lv_obj_set_style_opa(var, value, 0);
+}

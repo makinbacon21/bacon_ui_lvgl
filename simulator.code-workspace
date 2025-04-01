@@ -32,7 +32,12 @@
 			"cstdlib": "c",
 			"compare": "cpp",
 			"typeinfo": "c",
-			"bacon_pub.h": "c"
+			"bacon_pub.h": "c",
+			"array": "cpp",
+			"functional": "cpp",
+			"tuple": "cpp",
+			"type_traits": "cpp",
+			"utility": "cpp"
 		},
 		"makefile.configureOnOpen": true,
 	},

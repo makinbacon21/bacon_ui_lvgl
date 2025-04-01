@@ -32,4 +32,6 @@ void update_gradient_text(lv_opa_t *mask_map, char *txt, const uint32_t width,
 lv_obj_t * create_gradient_text(lv_opa_t *mask_map, bacon_grad_t type, char *txt,
     const uint32_t width, const uint32_t height);
 
+void fade(lv_obj_t *var, lv_opa_t value);
+
 #endif /*LV_BACON_THEME_H*/
