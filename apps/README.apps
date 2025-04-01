@@ -1,0 +1,17 @@
+# Bacon Strips
+
+A **bacon strip** is a dynamically linked library registered on startup and run when needed. Strips (apps) are able to write lvgl objects to the application parent object, enabling graphical output.
+
+## Specification
+
+The spec for strips is contained in [bacon_app_t](./bacon_pub.h). There are three hooks at this time:
+
+- entry()   - startup function, assumes app is completely not present
+- suspend() - exit function for temporary suspension for pm etc.
+- resume()  - startup function for resuming from suspension
+
+The app must end up in <appname>.bcpkg, a folder-based packaging specification. Within the folder, you must have libapp.so (the executable) and manifest.json.
+
+## Compilation
+
+In this project, the cmake system build everything. Name the C source for an app <appname>.c, and name its associated manifest <appname>.manifest.json.

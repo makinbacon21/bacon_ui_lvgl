@@ -31,7 +31,8 @@
 			"cstdint": "cpp",
 			"cstdlib": "c",
 			"compare": "cpp",
-			"typeinfo": "c"
+			"typeinfo": "c",
+			"bacon_pub.h": "c"
 		},
 		"makefile.configureOnOpen": true,
 	},
@@ -42,6 +43,7 @@
 			{
 				"label": "Build",
 				"command": "make",
+				"args": ["-C", "build"],
 				"group": {
 					"kind": "build",
 					"isDefault": true
@@ -69,7 +71,7 @@
 				"name": "Debug LVGL demo with gdb",
 				"type": "cppdbg",
 				"request": "launch",
-			        "program": "${workspaceFolder}/bin/lvgl-app",
+				"program": "${workspaceFolder}/bin/lvgl-app",
 				"args": [],
 				"cwd": "${fileDirname}",
 				"preLaunchTask": "Build",

@@ -6,7 +6,7 @@
 #include "bacon_theme.h"
 
 #ifdef SIMULATOR
-#define APP_DIR "./apps/"
+#define APP_DIR "./bin/apps/"
 #else
 #define APP_DIR "/usr/bin/bacon/"
 #endif

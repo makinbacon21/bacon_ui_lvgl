@@ -2,6 +2,7 @@
 #define LV_BACON_PUB_H
 
 #include "../lvgl/lvgl.h"
+#include "bacon_theme.h"
 
 typedef uint8_t prio_t;
 typedef uint16_t period_t;

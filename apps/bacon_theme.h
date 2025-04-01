@@ -16,13 +16,13 @@ typedef enum
     BLUE,
 } bacon_grad_t;
 
-extern lv_style_t *style_title;
-extern lv_style_t *style_heading;
-extern lv_style_t *style_body;
+lv_style_t *style_title;
+lv_style_t *style_heading;
+lv_style_t *style_body;
 
-extern lv_style_t *teal_grad;
-extern lv_style_t *pink_grad;
-extern lv_style_t *blue_grad;
+lv_style_t *teal_grad;
+lv_style_t *pink_grad;
+lv_style_t *blue_grad;
 
 void bacon_init_styles(void);
 

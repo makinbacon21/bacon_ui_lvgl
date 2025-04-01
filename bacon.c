@@ -21,10 +21,6 @@
 static bacon_app_t **registered_apps;
 static uint16_t app_cnt = 0;
 
-static lv_style_t style_title;
-static lv_style_t style_heading;
-static lv_style_t style_body;
-
 lv_opa_t mask_map[CLOCK_WIDTH * CLOCK_HEIGHT];
 
 lv_obj_t *date_lbl;
@@ -124,15 +120,15 @@ static void update_status_cb(lv_timer_t *timer) {
 
 void create_statusbar(lv_obj_t *screen) {
     event_lbl = lv_label_create(screen);
-    lv_obj_add_style(event_lbl, &style_heading, 0);
+    lv_obj_add_style(event_lbl, style_heading, 0);
     lv_obj_align(event_lbl, BACON_TOP_LEFT);
 
     event_sub_lbl = lv_label_create(screen);
-    lv_obj_add_style(event_sub_lbl, &style_body, 0);
+    lv_obj_add_style(event_sub_lbl, style_body, 0);
     lv_obj_align(event_sub_lbl, BACON_TOP_LEFT_SUB);
 
     status_lbl = lv_label_create(screen);
-    lv_obj_add_style(status_lbl, &style_heading, 0);
+    lv_obj_add_style(status_lbl, style_heading, 0);
     lv_obj_align(status_lbl, BACON_TOP_RIGHT);
 
     update_status();
@@ -143,7 +139,7 @@ void create_clock(lv_obj_t *screen) {
         create_gradient_text(mask_map, TEAL, "", CLOCK_WIDTH, CLOCK_HEIGHT);
 
     date_lbl = lv_label_create(screen);
-    lv_obj_add_style(date_lbl, &style_body, 0);
+    lv_obj_add_style(date_lbl, style_body, 0);
     lv_obj_align(date_lbl, LV_ALIGN_CENTER, 0, 64);
 
     update_date_time();
@@ -270,8 +266,8 @@ int discover_applications() {
         filename[0] = '\0';
 
         strcat(filename, APP_DIR);
-        strncat(filename, de->d_name, 481);
-        strcat(filename, "/app.so");
+        strncat(filename, de->d_name, 478);
+        strcat(filename, "/libapp.so");
 
         void *applib;
         applib = dlopen(filename, RTLD_NOW);
@@ -321,21 +317,6 @@ void lv_start_bacon(void) {
     lv_obj_set_style_bg_color(screen, lv_color_hex(0x000000), LV_PART_MAIN);
 
     bacon_init_styles();
-
-    // create styles
-    lv_style_init(&style_title);
-    lv_style_set_text_font(&style_title, &lv_font_fira_sans_bold_64);
-    lv_style_set_text_color(&style_title, lv_color_white());
-
-    // create styles
-    lv_style_init(&style_heading);
-    lv_style_set_text_font(&style_heading, &lv_font_fira_sans_bold_24);
-    lv_style_set_text_color(&style_heading, lv_color_white());
-
-    // create styles
-    lv_style_init(&style_body);
-    lv_style_set_text_font(&style_body, &lv_font_fira_sans_24);
-    lv_style_set_text_color(&style_body, lv_color_white());
 
     create_statusbar(screen);
 

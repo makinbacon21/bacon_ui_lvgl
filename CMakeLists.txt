@@ -9,6 +9,10 @@ set(CMAKE_C_STANDARD 99) # LVGL officially supports C99 and above
 set(CMAKE_CXX_STANDARD 17) #C17
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(BUILD_SHARED_LIBS ON)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+set(CMAKE_BINARY_DIR ${PROJECT_SOURCE_DIR}/bin)
+
 if (DEBUG_MODE)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 -ggdb")
 endif(DEBUG_MODE)
@@ -35,3 +39,5 @@ target_link_libraries(lvgl-app lv_drivers lvgl m pthread json-c ${LV_DRIVER})
 target_compile_definitions(lvgl-app PRIVATE SIMULATOR=1 LV_BUILD_TEST=0)
 
 add_custom_target (run COMMAND ${EXECUTABLE_OUTPUT_PATH}/lvgl-app DEPENDS lvgl-app)
+
+add_subdirectory(apps)
