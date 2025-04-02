@@ -31,7 +31,7 @@ static void update_date_time() {
     time_t t = time(NULL);
     struct tm *tm = localtime(&t);
     char dayOfWeek[10];
-    char time[10];
+    char time[16];
 
     switch (tm->tm_wday) {
     case 0:
@@ -59,7 +59,7 @@ static void update_date_time() {
         strcpy(dayOfWeek, "ERROR");
     }
 
-    snprintf(time, 10, "%d:%02d %s\n", tm->tm_hour % 12, tm->tm_min,
+    snprintf(time, 16, "%d:%02d %s\n", tm->tm_hour % 12, tm->tm_min,
              (tm->tm_hour > 12) ? "PM" : "AM");
     update_gradient_text(mask_map, time, CLOCK_WIDTH, CLOCK_HEIGHT);
     lv_label_set_text_fmt(date_lbl, "%s, %d/%d/%d\n", dayOfWeek, tm->tm_mon + 1,
