@@ -1,8 +1,15 @@
-#ifndef LV_BACON_PUB_H
-#define LV_BACON_PUB_H
 
-#include "../lvgl/lvgl.h"
+#ifndef LV_BACON_H
+#define LV_BACON_H
+
+#include "lvgl/lvgl.h"
 #include "bacon_theme.h"
+
+#ifdef SIMULATOR
+#define APP_DIR "./bin/apps/"
+#else
+#define APP_DIR "/usr/bin/bacon/"
+#endif
 
 typedef uint8_t prio_t;
 typedef uint16_t period_t;
@@ -41,6 +48,9 @@ void lv_start_bacon(void);
 void lv_bacon_run_loop(void);
 
 void launch_app(bacon_app_t *app);
-void close_app(bacon_app_t *app);
+void suspend_app(bacon_app_t *app);
 
-#endif /*LV_BACON_PUB_H*/
+uint16_t request_wakelock();
+uint16_t release_wakelock();
+
+#endif /*LV_BACON_H*/

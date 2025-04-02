@@ -48,6 +48,9 @@ void lv_start_bacon(void);
 void lv_bacon_run_loop(void);
 
 void launch_app(bacon_app_t *app);
-void close_app(bacon_app_t *app);
+void suspend_app(bacon_app_t *app);
+
+uint16_t request_wakelock();
+uint16_t release_wakelock();
 
 #endif /*LV_BACON_H*/

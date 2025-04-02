@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <time.h>
 
-#include "bacon_pub.h"
+#include "bacon.h"
 
 #define CLOCK_WIDTH 300
 #define CLOCK_HEIGHT 100

@@ -1,4 +1,4 @@
-#include "bacon_pub.h"
+#include "bacon.h"
 
 int32_t entry();
 int32_t suspend();

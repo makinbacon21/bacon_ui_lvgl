@@ -38,7 +38,8 @@
 			"tuple": "cpp",
 			"type_traits": "cpp",
 			"utility": "cpp",
-			"json_types.h": "c"
+			"json_types.h": "c",
+			"system_error": "cpp"
 		},
 		"makefile.configureOnOpen": true,
 	},
@@ -48,7 +49,7 @@
 		"tasks": [
 			{
 				"label": "Build",
-				"command": "make",
+				"command": "ninja",
 				"args": ["-C", "build"],
 				"group": {
 					"kind": "build",
