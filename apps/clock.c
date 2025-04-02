@@ -19,9 +19,10 @@ bacon_app_t appspec = {
     .entry = &entry,
     .suspend = &suspend,
     .resume = &resume,
-    .id = "bacon_test_app",
+    .id = "bacon_clock_app",
     .priority = 0,
     .destroy_on_exit = true,
+    .clock = false,
     .update_period = 5,
     .surface = NULL,
 };
@@ -65,21 +66,6 @@ static void update_date_time() {
                           tm->tm_mday, tm->tm_year - 100);
 }
 
-static void timeout_cb(lv_timer_t *timer) {
-    lv_anim_t clock_vanish;
-    lv_anim_init(&clock_vanish);
-
-    lv_anim_set_exec_cb(&clock_vanish, (lv_anim_exec_xcb_t)fade);
-    lv_anim_set_var(&clock_vanish, clock_grad);
-    lv_anim_set_time(&clock_vanish, 500);
-    lv_anim_set_values(&clock_vanish, 100, 0);
-
-    lv_anim_start(&clock_vanish);
-    lv_obj_del(date_lbl);
-    //clockstate = true;
-}
-
-
 int32_t entry() {
     clock_grad =
         create_gradient_text(mask_map, TEAL, "", CLOCK_WIDTH, CLOCK_HEIGHT);
@@ -91,16 +77,49 @@ int32_t entry() {
     update_date_time();
     lv_timer_create(update_date_time, 1000, NULL);
 
-    lv_timer_t *timer = lv_timer_create(timeout_cb, 5000, NULL);
-    lv_timer_set_repeat_count(timer, 1);
-
     return 0;
 }
 
 int32_t suspend() {
+    lv_anim_t clock_vanish;
+    lv_anim_t date_vanish;
+    lv_anim_init(&clock_vanish);
+    lv_anim_init(&date_vanish);
+
+    lv_anim_set_exec_cb(&clock_vanish, (lv_anim_exec_xcb_t)fade);
+    lv_anim_set_var(&clock_vanish, clock_grad);
+    lv_anim_set_time(&clock_vanish, 500);
+    lv_anim_set_values(&clock_vanish, 100, 0);
+
+    lv_anim_set_exec_cb(&date_vanish, (lv_anim_exec_xcb_t)fade);
+    lv_anim_set_var(&date_vanish, date_lbl);
+    lv_anim_set_time(&date_vanish, 500);
+    lv_anim_set_values(&date_vanish, 100, 0);
+
+    lv_anim_start(&clock_vanish);
+    lv_anim_start(&date_vanish);
+
     return 0;
 }
 
 int32_t resume() {
+    lv_anim_t clock_vanish;
+    lv_anim_t date_vanish;
+    lv_anim_init(&clock_vanish);
+    lv_anim_init(&date_vanish);
+
+    lv_anim_set_exec_cb(&clock_vanish, (lv_anim_exec_xcb_t)fade);
+    lv_anim_set_var(&clock_vanish, clock_grad);
+    lv_anim_set_time(&clock_vanish, 500);
+    lv_anim_set_values(&clock_vanish, 0, 100);
+
+    lv_anim_set_exec_cb(&date_vanish, (lv_anim_exec_xcb_t)fade);
+    lv_anim_set_var(&date_vanish, date_lbl);
+    lv_anim_set_time(&date_vanish, 500);
+    lv_anim_set_values(&date_vanish, 0, 100);
+
+    lv_anim_start(&clock_vanish);
+    lv_anim_start(&date_vanish);
+
     return 0;
 }

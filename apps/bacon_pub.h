@@ -14,6 +14,7 @@ typedef struct {
     char id[272];
     prio_t priority;
     bool destroy_on_exit;
+    bool clock;
     period_t update_period;
     lv_obj_t *surface;
 } bacon_app_t;

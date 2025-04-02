@@ -11,6 +11,7 @@ bacon_app_t appspec = {
     .id = "bacon_test_app",
     .priority = 0,
     .destroy_on_exit = true,
+    .clock = true,
     .update_period = 5,
     .surface = NULL,
 };

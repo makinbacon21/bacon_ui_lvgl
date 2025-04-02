@@ -22,12 +22,13 @@ lv_obj_t *event_lbl;
 lv_obj_t *event_sub_lbl;
 lv_obj_t *status_lbl;
 
-bacon_app_t clock_app;
-bacon_app_t current_app;
+bacon_app_t *current_app;
 
 pthread_mutex_t clock_mutex;
 
 static bool clockstate = false;
+static bool is_suspended = true;
+static uint16_t wakelock = 0;
 
 static void update_status() {
     lv_label_set_text(event_lbl, "EWR → ATX");
@@ -225,6 +226,41 @@ int discover_applications() {
     closedir(dr);
 }
 
+uint16_t request_wakelock() {
+    if (wakelock < 65535)
+        wakelock++;
+    return wakelock;
+}
+
+uint16_t release_wakelock() {
+    if (wakelock > 0)
+        wakelock--;
+    return wakelock;
+}
+
+void launch_app(bacon_app_t *app) {
+    if (current_app)
+        current_app->suspend();
+    else
+        current_app = malloc(sizeof(bacon_app_t));
+
+    app->entry();
+    is_suspended = false;
+    clockstate = app->clock;
+    current_app = app;
+}
+
+void suspend_app(bacon_app_t *app) {
+    app->suspend();
+    is_suspended = true;
+    clockstate = true;
+}
+
+static void bacon_timeout_cb(lv_timer_t *timer) {
+    if (!is_suspended && !wakelock)
+        suspend_app(current_app);
+}
+
 void lv_start_bacon(void) {
     lv_obj_t *screen = lv_scr_act();
 
@@ -241,20 +277,10 @@ void lv_start_bacon(void) {
 
     create_statusbar(screen);
 
-    registered_apps[0]->entry();
+    launch_app(registered_apps[0]);
 
     lv_timer_create(update_status_cb, 1000, NULL);
-}
-
-void launch_app(bacon_app_t *app) {
-    current_app.suspend();
-    app->entry();
-    current_app = *app;
-}
-
-void close_app(bacon_app_t *app) {
-    app->suspend();
-    current_app = clock_app;
+    lv_timer_create(bacon_timeout_cb, 5000, NULL);
 }
 
 void lv_bacon_run_loop(void) {
