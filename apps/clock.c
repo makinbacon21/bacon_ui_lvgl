@@ -11,6 +11,8 @@ lv_opa_t mask_map[CLOCK_WIDTH * CLOCK_HEIGHT];
 lv_obj_t *clock_grad;
 lv_obj_t *date_lbl;
 
+lv_timer_t *update_timer;
+
 int32_t entry();
 int32_t suspend();
 int32_t resume();
@@ -75,7 +77,7 @@ int32_t entry() {
     lv_obj_align(date_lbl, LV_ALIGN_CENTER, 0, 64);
 
     update_date_time();
-    lv_timer_create(update_date_time, 1000, NULL);
+    update_timer = lv_timer_create(update_date_time, 1000, NULL);
 
     return 0;
 }
@@ -99,6 +101,8 @@ int32_t suspend() {
     lv_anim_start(&clock_vanish);
     lv_anim_start(&date_vanish);
 
+    lv_timer_pause(update_timer);
+
     return 0;
 }
 
@@ -120,6 +124,8 @@ int32_t resume() {
 
     lv_anim_start(&clock_vanish);
     lv_anim_start(&date_vanish);
+
+    lv_timer_resume(update_timer);
 
     return 0;
 }

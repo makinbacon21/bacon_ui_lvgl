@@ -22,6 +22,9 @@ lv_obj_t *event_lbl;
 lv_obj_t *event_sub_lbl;
 lv_obj_t *status_lbl;
 
+lv_timer_t *app_timeout;
+lv_timer_t *status_update_timer;
+
 bacon_app_t *current_app;
 
 pthread_mutex_t clock_mutex;
@@ -254,6 +257,16 @@ void suspend_app(bacon_app_t *app) {
     app->suspend();
     is_suspended = true;
     clockstate = true;
+    lv_timer_pause(app_timeout);
+    lv_timer_set_period(status_update_timer, 10000);
+}
+
+void resume_app(bacon_app_t *app) {
+    app->resume();
+    is_suspended = false;
+    clockstate = app->clock;
+    lv_timer_resume(app_timeout);
+    lv_timer_set_period(status_update_timer, 1000);
 }
 
 static void bacon_timeout_cb(lv_timer_t *timer) {
@@ -279,8 +292,8 @@ void lv_start_bacon(void) {
 
     launch_app(registered_apps[0]);
 
-    lv_timer_create(update_status_cb, 1000, NULL);
-    lv_timer_create(bacon_timeout_cb, 5000, NULL);
+    status_update_timer = lv_timer_create(update_status_cb, 1000, NULL);
+    app_timeout = lv_timer_create(bacon_timeout_cb, 5000, NULL);
 }
 
 void lv_bacon_run_loop(void) {
